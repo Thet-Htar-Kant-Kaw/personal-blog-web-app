@@ -47,6 +47,22 @@
                     <a href="#about">ABOUT</a>
                     <a href="#projects">SKILLS</a>
                     <a href="#blogs">BLOG</a>
+                    @if (Auth::check())
+                        <a 
+                            href="" onclick="event.preventDefault(); if(confirm('Are you sure you want to log out?')) {document.getElementById('logout-form').submit()}"
+                        >
+                            LOGOUT
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none">
+                            @csrf
+                        </form>
+                        <a href="#">
+                            {{ strToUpper(Auth::user()->name) }}
+                        </a>
+                    @else
+                        <a href="{{ url('/login')}}">LOGIN</a>
+                        <a href="{{ url('/register')}}">REGISTER</a>
+                    @endif
                 </div>
 
                 <!-- ABOUT SECTION -->

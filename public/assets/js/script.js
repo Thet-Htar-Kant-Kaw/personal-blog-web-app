@@ -12,6 +12,11 @@ function myfunc() {
     }
 }
 
+// function logoutFunc() {
+//     event.preventDefault();
+//     document.getElementById('logout-form').submit();
+// }
+
 // JavaScript for toggling the side navbar
 // const toggleBtn = document.getElementById('toggleBtn');
 // const sideNavbar = document.getElementById('sidenav');
