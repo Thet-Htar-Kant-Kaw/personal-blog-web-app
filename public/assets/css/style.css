@@ -246,11 +246,13 @@ body {
     color: white;
     text-decoration: none;
 }
+
 .sidenav a:hover {
     background-color: #495057;
     color: turquoise;
     text-decoration: none;
 }
+
 .main-content {
     margin-left: 250px; /* Adjust for sidebar width */
     margin-top: 56px; /* Adjust for top navbar height */
