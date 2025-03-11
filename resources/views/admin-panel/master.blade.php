@@ -73,6 +73,9 @@
                         <li class="nav-item">
                             <a href={{ url('admin/skills') }} class="nav-link">Skills</a>  
                         </li>
+                        <li class="nav-item">
+                            <a href={{ url('admin/projects') }} class="nav-link">Projects</a>
+                        </li>
                     </ul>                   
                 </div>
             

@@ -1,5 +1,5 @@
 @extends('admin-panel.master')
-@section('title', 'Skills')
+@section('title', 'Projects')
 @section('content')
     <div class="container mt-3">
         @if (session('success'))
@@ -24,7 +24,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h2 class="mb-3">Add Skills</h2>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#skillModal">
-                    <i class="fas fa-circle-plus"></i> Add Skill
+                    <i class="fas fa-circle-plus"></i> Add Projects
                 </button>
                 {{-- @if (session('error'))
                     <div class="d-flex justify-content-between alert alert-danger" role="alert">
@@ -33,35 +33,42 @@
                     </div>
                 @endif --}}
             </div>
-            {{-- Add skill --}}
-            <div class="modal fade" id="skillModal" tabindex="-1" aria-labelledby="skillModalLabel" aria-hidden="true">
+            {{-- Add projects --}}
+            <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="userModalLabel">Add User</h5>
+                            <h5 class="modal-title" id="projectModalLabel">Add Project</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form action="{{ route('skills.store') }}" method="POST">
+                        <form action="{{ route('projects.store') }}" method="POST">
                             @csrf
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    <label for="skillName" class="form-label">Skill Name</label>
-                                    <input type="text" class="form-control @error('skillName') is-invalid @enderror" name="skillName" value="{{ old('skillName') }}" id="skillName">
-                                    @error('skillName')
-                                        <div class="text-danger">{{ $message }}</div>                    
+                                    <label for="projectName" class="form-label">Project Name</label>
+                                    <input type="text" class="form-control @error('projectName') is-invalid @enderror" name="projectName" value="{{ old('projectName') }}" id="projectName">
+                                    @error('projectName')
+                                        <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label for="skillPercentage" class="form-label">Skill Percentage</label>
-                                    <input type="number" class="form-control @error('skillPercentage') is-invalid @enderror" name="skillPercentage" value="{{ old('skillPercentage') }}" id="skillPercentage">
-                                    @error('skillPercentage')
+                                    <label for="projectDescription" class="form-label">Project Description</label>
+                                    <textarea class="form-control @error('projectDescription') is-invalid @enderror" name="projectDescription" id="projectDescription" rows="3">{{ old('projectDescription') }}</textarea>
+                                    @error('projectDescription')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="projectLink" class="form-label">Project Link</label>
+                                    <input type="text" class="form-control @error('projectLink') is-invalid @enderror" name="projectLink" value="{{ old('projectLink') }}" id="projectLink">
+                                    @error('projectLink')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="submit" class="btn btn-primary">Add Project</button>
                             </div>
                         </form>
                     </div>
@@ -78,7 +85,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($skills as $skill)
+                    {{-- @foreach ($skills as $skill)
                         <tr>
                             <td>{{ $skill->id }}</td>
                             <td>{{ $skill->name }}</td>
@@ -92,12 +99,12 @@
                                 </form>
                             </td>
                         </tr>
-                    @endforeach
+                    @endforeach --}}
                 </tbody>
             </table>
             </div>
             <div class="card-footer text-body-secondary">
-                {{ $skills->links('pagination::bootstrap-5') }}
+                {{-- {{ $skills->links('pagination::bootstrap-5') }} --}}
             </div>
         </div>
     </div>

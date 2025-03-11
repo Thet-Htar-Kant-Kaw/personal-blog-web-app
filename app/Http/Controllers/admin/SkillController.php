@@ -44,7 +44,7 @@ class SkillController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         return "This is the show page of the skill controller" . $id;
     }
@@ -52,24 +52,34 @@ class SkillController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        return "This is the edit page of the skill controller" . $id;
+        $skill = Skill::find($id);
+        return view('admin-panel.skills.edit', compact('skill'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,$id)
     {
-        //
+        $request->validate([
+            'skillName' => 'required|string|max:255',
+            'skillPercentage' => 'required|integer|between:1,100',
+        ]);
+        Skill::where('id', $id)->update([
+            'name' => $request->skillName,
+            'percentage' => $request->skillPercentage,
+        ]);
+        return redirect('admin/skills')->with('updateSuccess', 'Skill updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        Skill::where('id', $id)->delete();
+        return redirect('admin/skills')->with('deleteSuccess', 'Skill deleted successfully');
     }
 }

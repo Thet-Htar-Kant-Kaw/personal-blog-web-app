@@ -20,7 +20,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isAdmin']], functio
     Route::put('/users/{id}', [App\Http\Controllers\admin\UserController::class, 'update'])->name('users.update');
     Route::post('/users/{id}', [App\Http\Controllers\admin\UserController::class, 'destroy'])->name('users.destroy');
     Route::resource('skills', App\Http\Controllers\admin\SkillController::class);
-
+    Route::resource('projects', App\Http\Controllers\admin\ProjectController::class);
 });
 
 Auth::routes();

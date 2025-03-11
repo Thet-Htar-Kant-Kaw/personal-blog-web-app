@@ -39,68 +39,21 @@
             <div class="col-md-7 px-5">
                 <br>
                 <h2 class="text-center">MY SKILLS</h2><br>
-                <div class="row mb-4">
-                    <div class="col-md-10">
-                        <div class="progress mt-2">
-                            <div class="progress-bar" style="width: 95%;">
-                                95%
+                @foreach ($skills as $skill)
+                    <div class="row mb-4">
+                        <div class="col-md-10">
+                            <div class="progress mt-2">
+                                <div class="progress-bar" style="width: {{ $skill->percentage }}%;">
+                                    {{ $skill->percentage }}%
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        HTML
-                    </div>
-                </div>
-
-                <div class="row mb-4">
-                    <div class="col-md-10">
-                        <div class="progress mt-2">
-                            <div class="progress-bar" style="width: 75%;">
-                                75%
-                            </div>
+                        <div class="col-md-2">
+                            {{ $skill->name }}
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        CSS
-                    </div>
-                </div>
-                <div class="row mb-4">
-                    <div class="col-md-10">
-                        <div class="progress mt-2">
-                            <div class="progress-bar" style="width: 75%;">
-                                75%
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        LARAVEL
-                    </div>
-                </div>
-                <div class="row mb-4">
-                    <div class="col-md-10">
-                        <div class="progress mt-2">
-                            <div class="progress-bar" style="width: 55%;">
-                                55%
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        JAVASCRIPT
-                    </div>
-                </div>
-                <div class="row mb-4">
-                    <div class="col-md-10">
-                        <div class="progress mt-2">
-                            <div class="progress-bar" style="width: 40%;">
-                                40%
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        REACT
-                    </div>
-                </div>
-                                                        
+                    </div>                    
+                @endforeach
+                {{ $skills->links('pagination::bootstrap-5') }}                                                        
             </div>
         </div>                                
     </div>
