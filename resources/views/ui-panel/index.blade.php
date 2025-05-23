@@ -21,14 +21,14 @@
                         <div class="col-md-6 mb-2">
                             <div class="total-project">
                                 <i class="fa-solid fa-diagram-project pb-2"></i><br>
-                                <strong>5</strong>
+                                <strong>{{ $projects->count() }}</strong>
                                 <p>Total Projects</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="total-student">
                                 <i class="fa fa-users pb-2"></i><br>
-                                <strong>100</strong>
+                                <strong>{{ $studentCount->count }}</strong>
                                 <p>Total Students</p>
                             </div>
                         </div>
@@ -63,30 +63,16 @@
     <div class="projects px-5" id="projects">
         <h2 class="text-center">MY PROJECTS</h2><br><br>
         <div class="row">
-            <div class="col-md-4 mb-2">
-                <div class="project">
-                    <a href="https://www.google.com" target="_blank">
-                        <i class="fa-solid fa-diagram-project pb-2"></i><br>
-                        <strong>Google</strong>
-                    </a>
-                </div>                                                                                
-            </div>
-            <div class="col-md-4 mb-2">
-                <div class="project">
-                    <a href="https://www.youtube.com" target="_blank">
-                        <i class="fa-solid fa-diagram-project pb-2"></i><br>
-                        <strong>YouTube</strong>
-                    </a>
-                </div>                                                                                
-            </div>
-            <div class="col-md-4 mb-2">
-                <div class="project">
-                    <a href="https://www.youtube.com" target="_blank">
-                        <i class="fa-solid fa-diagram-project pb-2"></i><br>
-                        <strong>YouTube</strong>
-                    </a>
-                </div>                                     
-            </div>
+            @foreach ($projects as $project)
+                <div class="col-md-4 mb-2">
+                    <div class="project">
+                        <a href="{{ $project->url }}" target="_blank">
+                            <i class="fa-solid fa-diagram-project pb-2"></i><br>
+                            <strong>{{ $project->name }}</strong>
+                        </a>
+                    </div>                                                                                
+                </div>                
+            @endforeach
         </div>
     </div>
 

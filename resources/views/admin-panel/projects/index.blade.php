@@ -23,7 +23,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h2 class="mb-3">Add Skills</h2>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#skillModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projectModal">
                     <i class="fas fa-circle-plus"></i> Add Projects
                 </button>
                 {{-- @if (session('error'))
@@ -33,7 +33,7 @@
                     </div>
                 @endif --}}
             </div>
-            {{-- Add projects --}}
+            {{-- Add projects modal --}}
             <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -52,16 +52,9 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label for="projectDescription" class="form-label">Project Description</label>
-                                    <textarea class="form-control @error('projectDescription') is-invalid @enderror" name="projectDescription" id="projectDescription" rows="3">{{ old('projectDescription') }}</textarea>
-                                    @error('projectDescription')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <label for="projectLink" class="form-label">Project Link</label>
-                                    <input type="text" class="form-control @error('projectLink') is-invalid @enderror" name="projectLink" value="{{ old('projectLink') }}" id="projectLink">
-                                    @error('projectLink')
+                                    <label for="projectUrl" class="form-label">Project URL</label>
+                                    <input type="url" class="form-control @error('projectUrl') is-invalid @enderror" name="projectUrl" value="{{ old('projectUrl') }}" id="projectUrl">
+                                    @error('projectUrl')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -79,32 +72,32 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Skill Name</th>
-                        <th>Skill Percentage</th>
+                        <th>Project Name</th>
+                        <th>Project URL</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($skills as $skill)
+                    @foreach ($projects as $project)
                         <tr>
-                            <td>{{ $skill->id }}</td>
-                            <td>{{ $skill->name }}</td>
-                            <td>{{ $skill->percentage }}</td>
-                            <td>
-                                <a href="{{ route('skills.edit', $skill->id) }}" class="btn btn-primary">Edit</a>
-                                <form action="{{ url('admin/skills/'.$skill->id) }}" method="POST" class="d-inline">
+                            <td>{{ $project->id }}</td>
+                            <td>{{ $project->name }}</td>
+                            <td>{{ $project->url }}</td>
+                            <td class="d-flex justify-content-center align-items-center">
+                                <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-warning me-2"><i class="fas fa-edit"></i></a>
+                                <form action="{{ route('projects.destroy', $project->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete &quot;{{ $project->name }}&quot; project?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this skill?')">Delete</button>
+                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                 </form>
                             </td>
-                        </tr>
-                    @endforeach --}}
+                        </tr>                        
+                    @endforeach
                 </tbody>
             </table>
             </div>
             <div class="card-footer text-body-secondary">
-                {{-- {{ $skills->links('pagination::bootstrap-5') }} --}}
+                {{ $projects->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>

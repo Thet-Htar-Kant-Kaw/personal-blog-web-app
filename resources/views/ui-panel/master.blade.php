@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" 
     integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
      crossorigin="anonymous" referrerpolicy="no-referrer" />    
-    <title>Portfolio</title>
+    <title>@yield('title')</title>
 </head>
 <body>
     <div style="width: 100%;">
@@ -43,10 +43,10 @@
 
                 <!-- NAVIGATION SECTION  -->
                 <div id="navbar" class="d-flex justify-content-center position-sticky">
-                    <a href="index.html">HOME</a>
+                    <a href="{{ url('/') }}">HOME</a>
                     <a href="#about">ABOUT</a>
                     <a href="#projects">SKILLS</a>
-                    <a href="#blogs">BLOG</a>
+                    <a href="{{ url('/posts') }}">BLOG</a>
                     @if (Auth::check())
                         <a 
                             href="#" 

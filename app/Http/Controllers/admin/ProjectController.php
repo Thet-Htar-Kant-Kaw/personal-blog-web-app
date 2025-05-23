@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ProjectController extends Controller
 {
@@ -12,15 +13,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return view('admin-panel.projects.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $projects = Project::paginate(5);
+        return view('admin-panel.projects.index', compact('projects'));
     }
 
     /**
@@ -28,8 +22,16 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'projectName' => 'required|string|max:255',
+            'projectUrl' => 'required|url|max:255',
+        ]);
+
+        Project::create([
+            'name' => $request->projectName,
+            'url' => $request->projectUrl,
+        ]);
+        return redirect()->back()->with('success', 'Project added successfully');}
 
     /**
      * Display the specified resource.
@@ -44,7 +46,8 @@ class ProjectController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $project = Project::find($id);
+        return view('admin-panel.projects.edit', compact('project'));
     }
 
     /**
@@ -52,7 +55,17 @@ class ProjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'projectName' => 'required|string|max:255',
+            'projectUrl' => 'required|url|max:255',
+        ]);
+
+        $project = Project::find($id);
+        $project->name = $request->projectName;
+        $project->url = $request->projectUrl;
+        $project->save();
+
+        return redirect('admin/projects')->with('success', 'Project updated successfully');
     }
 
     /**
@@ -60,6 +73,9 @@ class ProjectController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $project = Project::find($id);
+        $project->delete();
+
+        return redirect('admin/projects')->with('success', 'Project deleted successfully');
     }
 }
