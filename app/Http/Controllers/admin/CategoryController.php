@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -12,15 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin-panel.categories.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $categories = Category::paginate(5);
+        return view('admin-panel.categories.index', compact('categories'));
     }
 
     /**
@@ -28,7 +23,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'categoryName' => 'required|unique:categories,name'
+        ]);
+        Category::create([
+            'name' => $request->categoryName,
+        ]);
+        return redirect()->back()->with('success', 'Category added successfully.');
     }
 
     /**
@@ -42,24 +43,32 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        return view('admin-panel.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'categoryName' => 'required|unique:categories,name,'.$id
+        ]);
+        Category::find($id)->update([
+            'name' => $request->categoryName
+        ]);
+        return redirect('admin/categories')->with('success', 'Category updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        Category::find($id)->delete();
+        return back()->with('deleteSuccess', 'Category deleted successfully');
     }
 }

@@ -4,44 +4,46 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-sm-12">
+                @foreach ($posts as $post)
                 <div class="blog">
-                    <h4>HOW TO BE A PROFESSIONAL WEB DEVELOPER IN ONE YEAR</h4><br>
-                    <img src="images/post1.jpg" alt=""><br><br>
-                    <small>December 26, 2024 | by Thet Htar</small><br><br>
+                    <h4>{{ $post->title}}</h4><br>
+                    <img src={{ asset('storage/post-images/' . $post->image) }} alt="" style="border: 1px solid gray; height:400px "><br><br>
+                    <span class="badge rounded-pill text-bg-secondary mx-3">{{ $post->category->name }}</span>
+                    <small>{{ date('d-M-Y', strtotime($post->created_at)) }} | by Thet Htar</small><br><br>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto nisi numquam
-                        voluptate vel cum, placeat labore? Provident veniam dolorem nisi fugiat earum dignissimos in, 
-                        magnam mollitia porro sint amet accusantium.
+                        {{ Str::substr($post->content, 0, 200) }}
                     </p>
-                    <a href="post-detail.html">
+                    <a href="{{ url('/posts/'. $post->id .'/details') }}">
                         <button class="btn btn-sm fw-bold">
                             Read More
                         </button>
                     </a>                                        
                 </div>
+                @endforeach
+                {{ $posts->links('pagination::bootstrap-5') }}
             </div>
             <div class="col-md-4 col-sm-12">
                 <div class="sidebar px-5">
-                    <form action="">
+                    <form action="{{ route('search-posts') }}" method="POST">
+                        @csrf
                         <div class="container">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search" aria-label="Search">
+                                <input type="text" name="search_data" value="{{ request('search_data') }}" class="form-control" placeholder="Search" aria-label="Search">
                                 <div class="input-group-append">
-                                    <button class="btn" type="button">
+                                    <button class="btn" type="submit">
                                         <i class="fa-solid fa-magnifying-glass"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </form>
+                    
                     <br><br><br>
                     <h5>Categories</h5>
                     <ul>
-                        <li><a href="#">HTML</a></li>
-                        <li><a href="#">CSS</a></li>
-                        <li><a href="#">JAVASCRIPT</a></li>
-                        <li><a href="#">LARAVEL</a></li>
-                        <li><a href="#">Vue.js</a></li>
+                        @foreach ($categories as $category)
+                            <li><a href="{{ url('/search-posts-by-category'. '/'. $category->id ) }}">{{ $category->name }}</a></li>
+                        @endforeach
                     </ul>
                 </div>
             </div>

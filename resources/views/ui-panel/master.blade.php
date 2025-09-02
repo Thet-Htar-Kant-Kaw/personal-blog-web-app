@@ -22,14 +22,14 @@
                     <div class="row">
                         <div class="col-md-2"></div>
                         <div class="col-md-4">
-                            <img src="images/thkk.jpg" id="header-img" alt="">
+                            <img src="{{ asset('images/thkk.jpg') }}" id="header-img" alt="">
                         </div>
                         <div class="col-md-4 fs-4 fw-bold">
                             <br><br>
                             <p>Hello!</p>
                             <p>I'm Thet Htar</p>
                             <p>Nice to meet you <3</p>
-                            <a href="posts.html">
+                            <a href="{{ url('/posts') }}">
                                 <button 
                                     class="btn explore-btn fs-4 fw-bold" 
                                 >

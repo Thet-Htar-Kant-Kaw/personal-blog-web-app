@@ -55,7 +55,7 @@
                                     @method('PUT')
                                     <div class="input-group">
                                         <input type="number" class="form-control @error('count') is-invalid @enderror"
-                                            name="count" style="border-radius: 4px 0 0 4px;">
+                                            name="count" style="border-radius: 4px 0 0 4px;" required>
                                         <button type="submit" class="btn btn-primary"
                                             style="border-radius: 0 4px 4px 0;">Add</button>
                                         @error('count')

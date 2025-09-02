@@ -31,7 +31,8 @@ class ProjectController extends Controller
             'name' => $request->projectName,
             'url' => $request->projectUrl,
         ]);
-        return redirect()->back()->with('success', 'Project added successfully');}
+        return redirect()->back()->with('success', 'Project added successfully');
+    }
 
     /**
      * Display the specified resource.
