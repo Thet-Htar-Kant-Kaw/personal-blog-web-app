@@ -1,0 +1,94 @@
+name: Personal Blog
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  laravel-tests:
+
+    runs-on: ubuntu-latest
+
+    # Add a service container for MySQL
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root # Use a simple password for CI
+          MYSQL_DATABASE: personal_web_app
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=5s
+          --health-timeout=2s
+          --health-retries=10
+
+    steps:
+      # 1. Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Set up PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, dom, fileinfo, pdo, pdo_mysql # Ensure pdo_mysql is present
+          
+      # 3. Copy .env file
+      - name: Copy .env file
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      # 4. Install Composer dependencies
+      - name: Install Dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      # 5. Generate an application key
+      - name: Generate app key
+        run: php artisan key:generate
+
+      # 6. Configure environment for MySQL testing
+      - name: Set up test environment
+        run: |
+          php artisan config:clear
+          sed -i '/^DB_CONNECTION=/s/=.*/=mysql/' .env
+          sed -i '/^DB_HOST=/s/=.*/=127.0.0.1/' .env
+          sed -i '/^DB_PORT=/s/=.*/=3306/' .env
+          sed -i '/^DB_DATABASE=/s/=.*/=personal_web_app/' .env
+          sed -i '/^DB_USERNAME=/s/=.*/=root/' .env
+          sed -i '/^DB_PASSWORD=/s/=.*/=root/' .env
+          
+      # 7. Run database migrations
+      - name: Run Database Migrations
+        run: php artisan migrate --force
+
+      # 8. Execute tests (PHPUnit or Pest)
+      - name: Execute tests
+        run: php artisan test
+
+    # steps:
+    # - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+    #   with:
+    #     php-version: '8.2'
+    #     extensions: mbstring, dom, fileinfo, mysql, sqlite, pdo_sqlite
+    # - uses: actions/checkout@v4
+    # - name: Copy .env
+    #   run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+    # - name: Install Dependencies
+    #   run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    # - name: Generate key
+    #   run: php artisan key:generate
+    # - name: Directory Permissions
+    #   run: chmod -R 777 storage bootstrap/cache
+    # - name: Create Database
+    #   run: |
+    #     mkdir -p database
+    #     touch database/database.sqlite
+    # - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
+    #   env:
+    #     DB_CONNECTION: mysql
+    #     DB_DATABASE: database/database.sqlite
+    #   run: php artisan test
